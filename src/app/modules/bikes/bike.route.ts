@@ -6,9 +6,15 @@ const router = express.Router()
 
 router.post(
 	"/",
-	validateRequest(BikeValidation.bikeValidationSchema),
+	validateRequest(BikeValidation.createBikeValidationSchema),
 	BikeController.createBike
 )
 router.get("/", BikeController.getAllBikes)
+router.put(
+	"/:id",
+	validateRequest(BikeValidation.updateBikeValidationSchema),
+	BikeController.updateBike
+)
+router.delete("/:id", BikeController.deleteBike)
 
 export const BikeRoutes = router
