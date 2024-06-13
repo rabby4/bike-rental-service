@@ -23,10 +23,11 @@ const updateUserIntoDB = async (email: string, payload: TUser) => {
 }
 
 const loginUser = async (payload: TLoginUser) => {
-	console.log(payload)
 	// check if the user exists
-	const isUserExists = await User.findOne({ email: payload.email })
-	console.log(isUserExists)
+	const isUserExists = await User.findOne(
+		{ email: payload.email },
+		{ createdAt: 0, updatedAt: 0, __v: 0 }
+	)
 
 	if (!isUserExists) {
 		throw new Error("User is not exist")
@@ -37,7 +38,7 @@ const loginUser = async (payload: TLoginUser) => {
 		payload?.password,
 		isUserExists.password
 	)
-	console.log(isPasswordMatched)
+
 	if (!isPasswordMatched) {
 		throw new Error("Password do not matched!")
 	}
@@ -46,13 +47,13 @@ const loginUser = async (payload: TLoginUser) => {
 		email: isUserExists.email,
 		role: isUserExists.role,
 	}
-	console.log(userData)
 
 	const accessToken = jwt.sign(userData, config.jwt_access_token as string, {
 		expiresIn: "1d",
 	})
 	return {
 		accessToken,
+		isUserExists,
 	}
 }
 

@@ -22,6 +22,17 @@ const createRental = catchAsync(async (req, res) => {
 	})
 })
 
+const returnRental = catchAsync(async (req, res) => {
+	const { id } = req.params
+	const result = await RentalServices.returnRental(id)
+	res.json({
+		success: true,
+		statusCode: 200,
+		message: "Bike returned successfully",
+		data: result,
+	})
+})
+
 const getAllRental = catchAsync(async (req, res) => {
 	const token: any = req.headers.authorization
 
@@ -43,5 +54,6 @@ const getAllRental = catchAsync(async (req, res) => {
 
 export const RentalController = {
 	createRental,
+	returnRental,
 	getAllRental,
 }

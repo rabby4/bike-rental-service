@@ -54,13 +54,14 @@ const updateUser = catchAsync(async (req, res) => {
 
 const loginUser = catchAsync(async (req, res) => {
 	const result = await UserServices.loginUser(req.body)
+	// const { accessToken, isUserExists } = result
 
 	res.json({
 		success: true,
 		statusCode: 200,
 		message: "User logged in successfully",
-		// token: "jwt_token",
-		data: result,
+		token: result.accessToken,
+		data: result.isUserExists,
 	})
 })
 

@@ -14,4 +14,7 @@ router.post(
 // Get rental
 router.get("/", RentalController.getAllRental)
 
+// return rental (update)
+router.put("/:id/return", RentalController.returnRental)
+
 export const RentalRoutes = router
