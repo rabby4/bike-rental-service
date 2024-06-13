@@ -9,6 +9,19 @@ const createUserIntoDB = async (payload: TUser) => {
 	return result
 }
 
+const getUserFromDB = async (email: string) => {
+	const result = await User.findOne({ email })
+	return result
+}
+
+const updateUserIntoDB = async (email: string, payload: TUser) => {
+	const result = await User.findOneAndUpdate({ email }, payload, {
+		new: true,
+		runValidators: true,
+	})
+	return result
+}
+
 const loginUser = async (payload: TLoginUser) => {
 	console.log(payload)
 	// check if the user exists
@@ -45,5 +58,7 @@ const loginUser = async (payload: TLoginUser) => {
 
 export const UserServices = {
 	createUserIntoDB,
+	getUserFromDB,
+	updateUserIntoDB,
 	loginUser,
 }

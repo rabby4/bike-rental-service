@@ -6,7 +6,7 @@ import httpStatus from "http-status"
 import jwt, { JwtPayload } from "jsonwebtoken"
 import config from "../config"
 
-const auth = () => {
+const auth = (...requiredRoles: ["admin" | "user"]) => {
 	return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 		const token = req.headers.authorization
 
@@ -23,6 +23,10 @@ const auth = () => {
 
 		console.log(decoded)
 
+		if (requiredRoles && !requiredRoles.includes(decoded.role)) {
+			throw new Error()
+		}
+		req.user = decoded as JwtPayload
 		next()
 	})
 }
