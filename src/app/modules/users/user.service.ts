@@ -1,7 +1,8 @@
-import AppError from "../../error/appError"
+import config from "../../config"
 import { TLoginUser, TUser } from "./user.interface"
 import { User } from "./user.model"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const createUserIntoDB = async (payload: TUser) => {
 	const result = await User.create(payload)
@@ -26,6 +27,19 @@ const loginUser = async (payload: TLoginUser) => {
 	console.log(isPasswordMatched)
 	if (!isPasswordMatched) {
 		throw new Error("Password do not matched!")
+	}
+	// create access token
+	const userData = {
+		email: isUserExists.email,
+		role: isUserExists.role,
+	}
+	console.log(userData)
+
+	const accessToken = jwt.sign(userData, config.jwt_access_token as string, {
+		expiresIn: "1d",
+	})
+	return {
+		accessToken,
 	}
 }
 
