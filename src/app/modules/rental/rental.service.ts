@@ -1,8 +1,8 @@
 import mongoose from "mongoose"
-import { User } from "../users/user.model"
 import { TRental } from "./rental.interface"
 import { Rental } from "./rental.model"
 import { Bike } from "../bikes/bike.model"
+import { User } from "../auth/auth.model"
 
 const createRentalIntoDB = async (email: string, payload: TRental) => {
 	const user = await User.findOne({ email })
@@ -55,7 +55,7 @@ const returnRental = async (id: string) => {
 		{ new: true, runValidators: true }
 	)
 
-	// return updateReturnTimeAndCost
+	return updateReturnTimeAndCost
 }
 
 const getAllRentalFromDB = async (email: string) => {
