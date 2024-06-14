@@ -39,11 +39,11 @@ const returnRental = async (id: string) => {
 	const startTime = +new Date(rentalData?.startTime)
 	const returnTime = +new Date()
 	const rentTime = returnTime - startTime
+
 	const totalHours = Math.floor(rentTime / (1000 * 60 * 60))
 
 	if (!rentalBike?.pricePerHour) throw new Error("Price is not found!")
 	const totalCost = totalHours * rentalBike?.pricePerHour
-	console.log(totalCost)
 
 	const updateReturnTimeAndCost = await Rental.findByIdAndUpdate(
 		id,

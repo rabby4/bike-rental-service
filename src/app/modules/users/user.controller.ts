@@ -4,17 +4,10 @@ import catchAsync from "../../utils/catchAsync"
 import { UserServices } from "./user.service"
 import sendResponse from "../../utils/sendResponse"
 
+// retrieved the users
 const getUser = catchAsync(async (req, res) => {
-	const token: any = req.headers.authorization
-
-	const decoded = jwt.verify(
-		token,
-		config.jwt_access_token as string
-	) as JwtPayload
-
-	const email = await decoded.email
-
-	const result = await UserServices.getUserFromDB(email)
+	console.log(req.user)
+	const result = await UserServices.getUserFromDB(req?.user?.id)
 	sendResponse(res, {
 		success: true,
 		statusCode: 200,
@@ -23,18 +16,10 @@ const getUser = catchAsync(async (req, res) => {
 	})
 })
 
+// Update user information
 const updateUser = catchAsync(async (req, res) => {
-	const token: any = req.headers.authorization
-
-	const decoded = jwt.verify(
-		token,
-		config.jwt_access_token as string
-	) as JwtPayload
-
-	const email = await decoded.email
 	const userData = req.body
-
-	const result = await UserServices.updateUserIntoDB(email, userData)
+	const result = await UserServices.updateUserIntoDB(req.user.id, userData)
 
 	sendResponse(res, {
 		success: true,

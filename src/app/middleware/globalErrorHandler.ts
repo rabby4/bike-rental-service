@@ -1,11 +1,12 @@
 import { ErrorRequestHandler } from "express"
 import { ZodError } from "zod"
-import AppError from "../error/appError"
+import AppError from "../errors/appError"
 import handleZodError from "../errors/handleZodError"
 import { TErrorMessages } from "../interface/error"
 import handleValidatorError from "../errors/handleValidatorError"
 import handleCastError from "../errors/handleCastError"
 import handleDuplicateError from "../errors/handleDuplicateError"
+import config from "../config"
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 	let statuscode = 500
@@ -81,7 +82,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 		success: false,
 		message,
 		errorMessages,
-		stack: "error stack",
+		stack: config.NODE_ENV === "development" ? err?.stack : err.stack,
 	})
 }
 

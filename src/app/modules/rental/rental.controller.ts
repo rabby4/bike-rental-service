@@ -1,19 +1,12 @@
-import jwt, { JwtPayload } from "jsonwebtoken"
 import catchAsync from "../../utils/catchAsync"
 import { RentalServices } from "./rental.service"
-import config from "../../config"
 
 const createRental = catchAsync(async (req, res) => {
-	const token: any = req.headers.authorization
+	const result = await RentalServices.createRentalIntoDB(
+		req.user.email,
+		req.body
+	)
 
-	const decoded = jwt.verify(
-		token,
-		config.jwt_access_token as string
-	) as JwtPayload
-
-	const email = await decoded.email
-
-	const result = await RentalServices.createRentalIntoDB(email, req.body)
 	res.json({
 		success: true,
 		statusCode: 200,
@@ -34,16 +27,16 @@ const returnRental = catchAsync(async (req, res) => {
 })
 
 const getAllRental = catchAsync(async (req, res) => {
-	const token: any = req.headers.authorization
+	const result = await RentalServices.getAllRentalFromDB(req.user.email)
 
-	const decoded = jwt.verify(
-		token,
-		config.jwt_access_token as string
-	) as JwtPayload
+	if (!result.length) {
+		res.json({
+			success: false,
+			message: "No Data Found",
+			data: result,
+		})
+	}
 
-	const email = await decoded.email
-
-	const result = await RentalServices.getAllRentalFromDB(email)
 	res.json({
 		success: true,
 		statusCode: 200,

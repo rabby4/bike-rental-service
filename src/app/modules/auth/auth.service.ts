@@ -1,14 +1,17 @@
+import mongoose from "mongoose"
 import config from "../../config"
 import { TLoginUser, TUser } from "./auth.interface"
 import { User } from "./auth.model"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
+// create service function for create or register user
 const createUserIntoDB = async (payload: TUser) => {
 	const result = await User.create(payload)
 	return result
 }
 
+// create service function for login user
 const loginUser = async (payload: TLoginUser) => {
 	// check if the user exists
 	const isUserExists = await User.findOne(
@@ -31,6 +34,7 @@ const loginUser = async (payload: TLoginUser) => {
 	}
 	// create access token
 	const userData = {
+		id: isUserExists._id,
 		email: isUserExists.email,
 		role: isUserExists.role,
 	}
