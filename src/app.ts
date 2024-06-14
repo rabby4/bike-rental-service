@@ -1,8 +1,9 @@
-import express from "express"
+import express, { Request, Response } from "express"
 import cors from "cors"
 import router from "./app/router"
 import globalErrorHandler from "./app/middleware/globalErrorHandler"
 import notFound from "./app/middleware/notFound"
+import sendResponse from "./app/utils/sendResponse"
 const app = express()
 
 // parser
@@ -12,8 +13,12 @@ app.use(cors())
 // server main route
 app.use("/api", router)
 
-app.get("/", (req, res) => {
-	res.send("Hello World!")
+app.get("/", (req: Request, res: Response) => {
+	sendResponse(res, {
+		success: true,
+		statusCode: 200,
+		message: "Welcome to Bike Rental Service server API",
+	})
 })
 
 app.use(globalErrorHandler)

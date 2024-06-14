@@ -1,4 +1,4 @@
-export type TErrorMessages = {
+export type TErrorMessage = {
 	path: string | number
 	message: string
 }[]
@@ -6,5 +6,5 @@ export type TErrorMessages = {
 export type TGenericErrorResponse = {
 	statusCode: number
 	message: string
-	errorMessages: TErrorMessages
+	errorMessage: TErrorMessage
 }

@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
-import { TErrorMessages, TGenericErrorResponse } from "../interface/error"
+import { TErrorMessage, TGenericErrorResponse } from "../interface/error"
 
 const handleValidatorError = (
 	err: mongoose.Error.ValidationError
 ): TGenericErrorResponse => {
-	const errorMessages: TErrorMessages = Object.values(err.errors).map(
+	const errorMessage: TErrorMessage = Object.values(err.errors).map(
 		(val: mongoose.Error.ValidatorError | mongoose.Error.CastError) => {
 			return {
 				path: val?.path,
@@ -17,7 +17,7 @@ const handleValidatorError = (
 	return {
 		statusCode,
 		message: "Validation Error",
-		errorMessages,
+		errorMessage,
 	}
 }
 

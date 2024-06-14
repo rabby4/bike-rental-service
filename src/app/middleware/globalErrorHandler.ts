@@ -2,7 +2,7 @@ import { ErrorRequestHandler } from "express"
 import { ZodError } from "zod"
 import AppError from "../errors/appError"
 import handleZodError from "../errors/handleZodError"
-import { TErrorMessages } from "../interface/error"
+import { TErrorMessage } from "../interface/error"
 import handleValidatorError from "../errors/handleValidatorError"
 import handleCastError from "../errors/handleCastError"
 import handleDuplicateError from "../errors/handleDuplicateError"
@@ -12,7 +12,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 	let statuscode = 500
 	let message = "something went wrong"
 
-	let errorMessages: TErrorMessages = [
+	let errorMessages: TErrorMessage = [
 		{
 			path: "",
 			message: "something went wrong",
