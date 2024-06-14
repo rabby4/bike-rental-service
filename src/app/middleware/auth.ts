@@ -5,6 +5,7 @@ import AppError from "../error/appError"
 import httpStatus from "http-status"
 import jwt, { JwtPayload } from "jsonwebtoken"
 import config from "../config"
+import sendResponse from "../utils/sendResponse"
 
 const auth = (...requiredRoles: ["admin" | "user"]) => {
 	return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -21,10 +22,12 @@ const auth = (...requiredRoles: ["admin" | "user"]) => {
 			config.jwt_access_token as string
 		) as JwtPayload
 
-		console.log(decoded)
-
 		if (requiredRoles && !requiredRoles.includes(decoded.role)) {
-			throw new Error()
+			sendResponse(res, {
+				success: false,
+				statusCode: 401,
+				message: "You have no access to this route",
+			})
 		}
 		req.user = decoded as JwtPayload
 		next()

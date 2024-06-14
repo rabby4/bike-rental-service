@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import router from "./app/router"
 import globalErrorHandler from "./app/middleware/globalErrorHandler"
+import notFound from "./app/middleware/notFound"
 const app = express()
 
 // parser
@@ -16,5 +17,6 @@ app.get("/", (req, res) => {
 })
 
 app.use(globalErrorHandler)
+app.use(notFound)
 
 export default app
