@@ -36,9 +36,13 @@ const returnRental = async (id: string) => {
 	)
 	if (!rentalData?.startTime) throw new Error("Invalid Date formate")
 
-	const startTime = +new Date(rentalData?.startTime)
-	const returnTime = +new Date()
-	const rentTime = returnTime - startTime
+	const givenTime = new Date(rentalData?.startTime)
+	const currentTime = new Date()
+
+	const startTime = givenTime.getTime()
+	const endTime = currentTime.getTime()
+
+	const rentTime = startTime - endTime
 
 	const totalHours = Math.floor(rentTime / (1000 * 60 * 60))
 
