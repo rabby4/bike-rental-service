@@ -1,12 +1,9 @@
-import jwt, { JwtPayload } from "jsonwebtoken"
-import config from "../../config"
 import catchAsync from "../../utils/catchAsync"
 import { UserServices } from "./user.service"
 import sendResponse from "../../utils/sendResponse"
 
 // retrieved the users
 const getUser = catchAsync(async (req, res) => {
-	console.log(req.user)
 	const result = await UserServices.getUserFromDB(req?.user?.id)
 	sendResponse(res, {
 		success: true,

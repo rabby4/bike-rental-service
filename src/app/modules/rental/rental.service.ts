@@ -15,7 +15,7 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 		throw new Error("Bike is not available for rent!")
 	}
 
-	const updateBikeAvailability = await Bike.findByIdAndUpdate(
+	await Bike.findByIdAndUpdate(
 		payload.bikeId,
 		{ isAvailable: false },
 		{ new: true }
@@ -29,7 +29,7 @@ const returnRental = async (id: string) => {
 	const rentalData = await Rental.findById(id)
 	const rentalBike = await Bike.findOne({ _id: rentalData?.bikeId })
 
-	const updateBikeAvailability = await Bike.findByIdAndUpdate(
+	await Bike.findByIdAndUpdate(
 		{ _id: rentalData?.bikeId },
 		{ isAvailable: true },
 		{ new: true }
