@@ -1,7 +1,7 @@
 # Project Overview
 
 Bike rental service is rental system where tourist could easily rent bikes online. This server builded with NodeJS, ExpressJS, TypeScript, Mongoose. For security purpose, I use JWT for user authorization and BCRYPT for protect the user password.
-<br>
+<br/>
 What is the feature have in this project?
 
 - User/tourist can rent a bike if the bike is available,
@@ -10,8 +10,9 @@ What is the feature have in this project?
 
 ### project Information
 
-<string>Project Name: </string> Bike Rental Service
-<string>Live Link: </string> [Bike Rental Service](https://bike-rental-service-rose.vercel.app/)
+<b>Project Name: </b> Bike Rental Service
+<br/>
+<b>Live Link: </b> [Bike Rental Service](https://bike-rental-service-rose.vercel.app/)
 
 # Instructions
 
