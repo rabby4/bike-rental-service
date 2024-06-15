@@ -1,3 +1,18 @@
+# Project Overview
+
+Bike rental service is rental system where tourist could easily rent bikes online. This server builded with NodeJS, ExpressJS, TypeScript, Mongoose. For security purpose, I use JWT for user authorization and BCRYPT for protect the user password.
+<br>
+What is the feature have in this project?
+
+- User/tourist can rent a bike if the bike is available,
+- When they return the bike, it would be automatic calculate cost per hours.
+- Every user can update there profile information anytime.
+
+### project Information
+
+<string>Project Name: </string> Bike Rental Service
+<string>Live Link: </string> [Bike Rental Service](https://bike-rental-service-rose.vercel.app/)
+
 # Instructions
 
 There is some instruction for how you can run this project on you local computer. follow step by step.
@@ -7,7 +22,7 @@ There is some instruction for how you can run this project on you local computer
 Fist you need to clone this project repository. Open your command prompt and run the below command to clone the repository. Then open it with VS Code IDE.
 
 ```
-git clone https://github.com/rabby4/product-management.git
+git clone https://github.com/rabby4/bike-rental-service.git
 ```
 
 After open this project with VS Code you will see all the file. But you can't run this immediately. You need to install necessary packages. To install all the packages, open CMD/git bash in vs code to `ctrl + j` or you can open external CMD/git bash. Then you can simply run this below command.
