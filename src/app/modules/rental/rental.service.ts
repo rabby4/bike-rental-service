@@ -36,18 +36,15 @@ const returnRental = async (id: string) => {
 	)
 	if (!rentalData?.startTime) throw new Error("Invalid Date formate")
 
-	const givenTime = new Date(rentalData?.startTime)
-	const currentTime = new Date()
+	const givenTime = +new Date(rentalData?.startTime)
+	const currentTime = +new Date()
 
-	const startTime = givenTime.getTime()
-	const endTime = currentTime.getTime()
+	const rentTime = currentTime - givenTime
 
-	const rentTime = startTime - endTime
-
-	const totalHours = Math.floor(rentTime / (1000 * 60 * 60))
+	const totalHours = (rentTime / (1000 * 60 * 60)).toFixed(2)
 
 	if (!rentalBike?.pricePerHour) throw new Error("Price is not found!")
-	const totalCost = totalHours * rentalBike?.pricePerHour
+	const totalCost = (Number(totalHours) * rentalBike?.pricePerHour).toFixed(2)
 
 	const updateReturnTimeAndCost = await Rental.findByIdAndUpdate(
 		id,

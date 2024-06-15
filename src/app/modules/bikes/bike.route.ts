@@ -12,7 +12,11 @@ router.post(
 	validateRequest(BikeValidation.createBikeValidationSchema),
 	BikeController.createBike
 )
-router.get("/", auth(USER_ROLE.user), BikeController.getAllBikes)
+router.get(
+	"/",
+	auth(USER_ROLE.user, USER_ROLE.admin),
+	BikeController.getAllBikes
+)
 router.put(
 	"/:id",
 	auth(USER_ROLE.admin),

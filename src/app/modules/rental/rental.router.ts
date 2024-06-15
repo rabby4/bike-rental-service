@@ -15,7 +15,11 @@ router.post(
 )
 
 // Get rental
-router.get("/", auth(USER_ROLE.user), RentalController.getAllRental)
+router.get(
+	"/",
+	auth(USER_ROLE.user, USER_ROLE.admin),
+	RentalController.getAllRental
+)
 
 // return rental (update)
 router.put("/:id/return", auth(USER_ROLE.admin), RentalController.returnRental)
