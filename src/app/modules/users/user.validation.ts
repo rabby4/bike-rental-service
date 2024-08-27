@@ -8,6 +8,7 @@ const updateUserValidationSchema = z.object({
 		phone: z.string().optional(),
 		address: z.string().optional(),
 		role: z.string().optional(),
+		image: z.string().optional(),
 	}),
 })
 

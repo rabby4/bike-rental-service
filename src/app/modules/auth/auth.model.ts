@@ -5,7 +5,11 @@ import { TUser } from "./auth.interface"
 
 const userSchema = new Schema<TUser>(
 	{
-		name: {
+		firstName: {
+			type: String,
+			required: true,
+		},
+		lastName: {
 			type: String,
 			required: true,
 		},
@@ -30,6 +34,9 @@ const userSchema = new Schema<TUser>(
 			type: String,
 			enum: ["admin", "user"],
 		},
+		image: {
+			type: String,
+		},
 	},
 	{
 		timestamps: true,
@@ -42,6 +49,7 @@ const userSchema = new Schema<TUser>(
 )
 
 userSchema.pre("save", async function (next) {
+	// eslint-disable-next-line @typescript-eslint/no-this-alias
 	const user = this
 	// hashing password and save into database
 	user.password = await bcrypt.hash(
