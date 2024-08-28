@@ -14,9 +14,10 @@ router.post(
 )
 router.get(
 	"/",
-	auth(USER_ROLE.user, USER_ROLE.admin),
+	// auth(USER_ROLE.user, USER_ROLE.admin),
 	BikeController.getAllBikes
 )
+router.get("/:id", BikeController.getSingleBikes)
 router.put(
 	"/:id",
 	auth(USER_ROLE.admin),
