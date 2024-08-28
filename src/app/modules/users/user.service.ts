@@ -1,6 +1,11 @@
 import { TUser } from "../auth/auth.interface"
 import { User } from "../auth/auth.model"
 
+const getAllUserFromDB = async () => {
+	const result = await User.find()
+	return result
+}
+
 const getUserFromDB = async (id: string) => {
 	const result = await User.findOne({ _id: id })
 	return result
@@ -15,6 +20,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
 }
 
 export const UserServices = {
+	getAllUserFromDB,
 	getUserFromDB,
 	updateUserIntoDB,
 }

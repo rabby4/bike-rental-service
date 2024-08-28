@@ -6,6 +6,8 @@ import auth from "../../middleware/auth"
 import { USER_ROLE } from "./user.constant"
 const router = express.Router()
 
+router.get("/", UserController.getAllUserFromDB)
+
 // get user data
 router.get("/me", auth(USER_ROLE.admin, USER_ROLE.user), UserController.getUser)
 

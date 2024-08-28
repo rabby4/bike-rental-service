@@ -7,7 +7,7 @@ const createBike = catchAsync(async (req, res) => {
 	res.json({
 		success: true,
 		statusCode: 200,
-		message: "Bike added successfully",
+		message: "Bike Created successfully",
 		data: result,
 	})
 })

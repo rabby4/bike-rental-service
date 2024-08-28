@@ -2,6 +2,16 @@ import catchAsync from "../../utils/catchAsync"
 import { UserServices } from "./user.service"
 import sendResponse from "../../utils/sendResponse"
 
+const getAllUserFromDB = catchAsync(async (req, res) => {
+	const result = await UserServices.getAllUserFromDB()
+	sendResponse(res, {
+		success: true,
+		statusCode: 200,
+		message: "Retrieved All User successfully",
+		data: result,
+	})
+})
+
 // retrieved the users
 const getUser = catchAsync(async (req, res) => {
 	const result = await UserServices.getUserFromDB(req?.user?.id)
@@ -27,6 +37,7 @@ const updateUser = catchAsync(async (req, res) => {
 })
 
 export const UserController = {
+	getAllUserFromDB,
 	updateUser,
 	getUser,
 }
