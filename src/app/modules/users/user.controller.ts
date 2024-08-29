@@ -36,8 +36,35 @@ const updateUser = catchAsync(async (req, res) => {
 	})
 })
 
+// Update user information
+const updateUserToAdmin = catchAsync(async (req, res) => {
+	const result = await UserServices.updateUserToAdminIntoDB(req.params.id, {
+		role: "admin",
+	})
+
+	sendResponse(res, {
+		success: true,
+		statusCode: 200,
+		message: "Update User to Admin successfully",
+		data: result,
+	})
+})
+// Update user information
+const deleteUser = catchAsync(async (req, res) => {
+	const result = await UserServices.deleteUserFromDB(req.params.id)
+
+	sendResponse(res, {
+		success: true,
+		statusCode: 200,
+		message: "User deleted successfully",
+		data: result,
+	})
+})
+
 export const UserController = {
 	getAllUserFromDB,
 	updateUser,
 	getUser,
+	updateUserToAdmin,
+	deleteUser,
 }

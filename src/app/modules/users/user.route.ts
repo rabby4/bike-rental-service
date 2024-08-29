@@ -19,5 +19,10 @@ router.put(
 	validateRequest(UserValidation.updateUserValidationSchema),
 	UserController.updateUser
 )
+// update user to admin
+router.patch("/:id", auth(USER_ROLE.admin), UserController.updateUserToAdmin)
+
+// delete user from database
+router.delete("/:id", auth(USER_ROLE.admin), UserController.deleteUser)
 
 export const UserRoutes = router
