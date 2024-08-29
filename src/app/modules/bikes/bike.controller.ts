@@ -13,7 +13,7 @@ const createBike = catchAsync(async (req, res) => {
 })
 
 const getAllBikes = catchAsync(async (req, res) => {
-	const result = await BikeServices.getAllBikesFromDB()
+	const result = await BikeServices.getAllBikesFromDB(req.query)
 
 	if (!result.length) {
 		res.json({

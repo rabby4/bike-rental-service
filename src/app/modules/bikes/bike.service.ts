@@ -1,3 +1,4 @@
+import QueryBuilder from "../../builder/QueryBuilder"
 import { TBike } from "./bike.interface"
 import { Bike } from "./bike.model"
 
@@ -6,8 +7,15 @@ const createBikeIntoDB = async (payload: TBike) => {
 	return result
 }
 
-const getAllBikesFromDB = async () => {
-	const result = await Bike.find()
+const getAllBikesFromDB = async (query: Record<string, unknown>) => {
+	const bikeQuery = new QueryBuilder(Bike.find(), query)
+		.search(["name"])
+		.filter()
+		.sort()
+		.paginate()
+		.fields()
+
+	const result = await bikeQuery.modelQuery
 	return result
 }
 
