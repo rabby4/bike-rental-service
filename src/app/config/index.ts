@@ -9,4 +9,7 @@ export default {
 	database_url: process.env.DATABASE_URL,
 	bcrypt_salt_round: process.env.BCRYPT_SALT_ROUND,
 	jwt_access_token: process.env.JWT_ACCESS_TOKEN,
+	store_id: process.env.STORE_ID,
+	signature_key: process.env.SIGNATURE_KEY,
+	payment_url: process.env.PAYMENT_URL,
 }

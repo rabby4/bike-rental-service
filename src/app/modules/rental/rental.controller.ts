@@ -15,6 +15,10 @@ const createRental = catchAsync(async (req, res) => {
 	})
 })
 
+const paymentConfirmation = catchAsync(async (req, res) => {
+	res.send(`<h1>Payment confirm</h1>`)
+})
+
 const returnRental = catchAsync(async (req, res) => {
 	const { id } = req.params
 	const result = await RentalServices.returnRental(id)
@@ -28,7 +32,6 @@ const returnRental = catchAsync(async (req, res) => {
 
 const getAllRental = catchAsync(async (req, res) => {
 	const result = await RentalServices.getAllRentalFromDB(req.user.email)
-
 	if (!result.length) {
 		res.json({
 			success: false,
@@ -36,7 +39,6 @@ const getAllRental = catchAsync(async (req, res) => {
 			data: result,
 		})
 	}
-
 	res.json({
 		success: true,
 		statusCode: 200,
@@ -45,8 +47,21 @@ const getAllRental = catchAsync(async (req, res) => {
 	})
 })
 
+const updateRentalFullPayment = catchAsync(async (req, res) => {
+	const { id } = req.params
+	const result = await RentalServices.updateRentalFullPayment(id)
+	res.json({
+		success: true,
+		statusCode: 200,
+		message: "Redirecting payment page!",
+		data: result,
+	})
+})
+
 export const RentalController = {
 	createRental,
+	paymentConfirmation,
 	returnRental,
 	getAllRental,
+	updateRentalFullPayment,
 }

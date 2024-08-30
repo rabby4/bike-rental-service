@@ -27,6 +27,14 @@ const rentalSchema = new Schema<TRental>({
 		type: Boolean,
 		default: false,
 	},
+	advancePay: {
+		type: Number,
+		default: 100,
+	},
+	fullPay: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 export const Rental = model<TRental>("Rental", rentalSchema)

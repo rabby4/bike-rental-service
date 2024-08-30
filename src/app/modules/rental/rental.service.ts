@@ -3,6 +3,8 @@ import { TRental } from "./rental.interface"
 import { Rental } from "./rental.model"
 import { Bike } from "../bikes/bike.model"
 import { User } from "../auth/auth.model"
+import axios from "axios"
+import config from "../../config"
 
 const createRentalIntoDB = async (email: string, payload: TRental) => {
 	const user = await User.findOne({ email })
@@ -21,8 +23,38 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 		{ new: true }
 	)
 
+	// payment information
+	const trxId = `TrxID-${Date.now()}`
+
+	const initiatePayment = async () => {
+		const response = await axios.post(config.payment_url!, {
+			store_id: config.store_id,
+			signature_key: config.signature_key,
+			tran_id: trxId,
+			success_url: "http://localhost:5173/confirmation",
+			fail_url: "http://www.merchantdomain.com/failedpage.html",
+			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
+			amount: "100",
+			currency: "BDT",
+			desc: "Merchant Registration Payment",
+			cus_name: `${user?.firstName} ${user?.lastName}`,
+			cus_email: user?.email,
+			cus_add1: user?.address,
+			cus_add2: "N/A",
+			cus_city: "N/A",
+			cus_state: "N/A",
+			cus_postcode: "N/A",
+			cus_country: "N/A",
+			cus_phone: user?.phone,
+			type: "json",
+		})
+		const responseData = await response.data
+		return responseData
+	}
+	const paymentSession = await initiatePayment()
+
 	const result = await Rental.create(payload)
-	return result
+	return { data: result, paymentSession }
 }
 
 const returnRental = async (id: string) => {
@@ -60,13 +92,68 @@ const returnRental = async (id: string) => {
 }
 
 const getAllRentalFromDB = async (email: string) => {
+	let result
 	const user = await User.findOne({ email })
-	const result = await Rental.find({ userId: user?._id })
+	if (user?.role === "user") {
+		result = await Rental.find({ userId: user?._id }).populate("bikeId")
+	} else {
+		result = await Rental.find().populate("bikeId")
+	}
+
 	return result
+}
+
+const updateRentalFullPayment = async (id: string) => {
+	const rentalData = await Rental.findById(id)
+	const user = await User.findById(rentalData?.userId)
+
+	if (!rentalData?.isReturned) {
+		throw new Error("This bike is not returned yet!")
+	}
+	const updateRentalPaymentStatus = await Rental.findByIdAndUpdate(
+		id,
+		{ fullPay: true },
+		{ new: true }
+	)
+
+	// payment information
+	const trxId = `TrxID-${Date.now()}`
+	const paymentAmount =
+		(rentalData?.totalCost as number) - (rentalData?.advancePay as number)
+
+	const initiatePayment = async () => {
+		const response = await axios.post(config.payment_url!, {
+			store_id: config.store_id,
+			signature_key: config.signature_key,
+			tran_id: trxId,
+			success_url: "http://localhost:5173/confirmation",
+			fail_url: "http://www.merchantdomain.com/failedpage.html",
+			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
+			amount: paymentAmount,
+			currency: "BDT",
+			desc: "Merchant Registration Payment",
+			cus_name: `${user?.firstName} ${user?.lastName}`,
+			cus_email: user?.email,
+			cus_add1: user?.address,
+			cus_add2: "N/A",
+			cus_city: "N/A",
+			cus_state: "N/A",
+			cus_postcode: "N/A",
+			cus_country: "N/A",
+			cus_phone: user?.phone,
+			type: "json",
+		})
+		const responseData = await response.data
+		return responseData
+	}
+	const paymentSession = await initiatePayment()
+
+	return { data: updateRentalPaymentStatus, paymentSession }
 }
 
 export const RentalServices = {
 	createRentalIntoDB,
 	returnRental,
 	getAllRentalFromDB,
+	updateRentalFullPayment,
 }

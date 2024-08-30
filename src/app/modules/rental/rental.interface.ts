@@ -7,4 +7,6 @@ export type TRental = {
 	returnTime: Date
 	totalCost: number
 	isReturned: boolean
+	advancePay: number
+	fullPay: boolean
 }

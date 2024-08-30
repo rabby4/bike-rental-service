@@ -13,6 +13,8 @@ router.post(
 	validateRequest(RentalValidation.createRentalValidationSchema),
 	RentalController.createRental
 )
+// payment confirmation
+router.post("/confirmation", RentalController.paymentConfirmation)
 
 // Get rental
 router.get(
@@ -23,5 +25,12 @@ router.get(
 
 // return rental (update)
 router.put("/:id/return", auth(USER_ROLE.admin), RentalController.returnRental)
+
+// full payment of rental (update)
+router.patch(
+	"/:id/full-payment",
+	auth(USER_ROLE.user),
+	RentalController.updateRentalFullPayment
+)
 
 export const RentalRoutes = router
