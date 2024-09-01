@@ -31,7 +31,7 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 			store_id: config.store_id,
 			signature_key: config.signature_key,
 			tran_id: trxId,
-			success_url: "http://localhost:5173/confirmation",
+			success_url: "https://bike-rental-lovat.vercel.app/confirmation",
 			fail_url: "http://www.merchantdomain.com/failedpage.html",
 			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
 			amount: "100",
@@ -110,6 +110,7 @@ const updateRentalFullPayment = async (id: string) => {
 	if (!rentalData?.isReturned) {
 		throw new Error("This bike is not returned yet!")
 	}
+
 	const updateRentalPaymentStatus = await Rental.findByIdAndUpdate(
 		id,
 		{ fullPay: true },
@@ -126,7 +127,7 @@ const updateRentalFullPayment = async (id: string) => {
 			store_id: config.store_id,
 			signature_key: config.signature_key,
 			tran_id: trxId,
-			success_url: "http://localhost:5173/confirmation",
+			success_url: "https://bike-rental-lovat.vercel.app/confirmation",
 			fail_url: "http://www.merchantdomain.com/failedpage.html",
 			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
 			amount: paymentAmount,

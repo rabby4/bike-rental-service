@@ -3,6 +3,7 @@ import { UserRoutes } from "../modules/users/user.route"
 import { BikeRoutes } from "../modules/bikes/bike.route"
 import { RentalRoutes } from "../modules/rental/rental.router"
 import { AuthRoutes } from "../modules/auth/auth.route"
+import { CouponRoutes } from "../modules/coupon/coupon.router"
 
 const router = Router()
 
@@ -22,6 +23,10 @@ const allRoutes = [
 	{
 		path: "/rentals",
 		route: RentalRoutes,
+	},
+	{
+		path: "/coupons",
+		route: CouponRoutes,
 	},
 ]
 
