@@ -1,4 +1,6 @@
+import httpStatus from "http-status"
 import config from "../../config"
+import AppError from "../../errors/appError"
 import { TLoginUser, TUser } from "./auth.interface"
 import { User } from "./auth.model"
 import bcrypt from "bcrypt"
@@ -19,7 +21,7 @@ const loginUser = async (payload: TLoginUser) => {
 	)
 
 	if (!isUserExists) {
-		throw new Error("User is not exist")
+		throw new AppError(httpStatus.NOT_FOUND, "User is not exist")
 	}
 
 	// checking if the password matched
@@ -29,7 +31,7 @@ const loginUser = async (payload: TLoginUser) => {
 	)
 
 	if (!isPasswordMatched) {
-		throw new Error("Password do not matched!")
+		throw new AppError(httpStatus.FORBIDDEN, "Password do not matched!")
 	}
 	// create access token
 	const userData = {

@@ -5,6 +5,8 @@ import { Bike } from "../bikes/bike.model"
 import { User } from "../auth/auth.model"
 import axios from "axios"
 import config from "../../config"
+import AppError from "../../errors/appError"
+import httpStatus from "http-status"
 
 const createRentalIntoDB = async (email: string, payload: TRental) => {
 	const user = await User.findOne({ email })
@@ -14,7 +16,7 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 	const isBikeAvailable = await Bike.findById(payload.bikeId)
 
 	if (!isBikeAvailable?.isAvailable) {
-		throw new Error("Bike is not available for rent!")
+		throw new AppError(httpStatus.CONFLICT, "Bike is not available for rent!")
 	}
 
 	await Bike.findByIdAndUpdate(
@@ -31,7 +33,7 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 			store_id: config.store_id,
 			signature_key: config.signature_key,
 			tran_id: trxId,
-			success_url: "https://bike-rental-lovat.vercel.app/confirmation",
+			success_url: "https://bike-rental-service-rose.vercel.app/confirmation",
 			fail_url: "http://www.merchantdomain.com/failedpage.html",
 			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
 			amount: "100",
@@ -66,7 +68,8 @@ const returnRental = async (id: string) => {
 		{ isAvailable: true },
 		{ new: true }
 	)
-	if (!rentalData?.startTime) throw new Error("Invalid Date formate")
+	if (!rentalData?.startTime)
+		throw new AppError(httpStatus.NOT_FOUND, "Invalid Date formate")
 
 	const givenTime = +new Date(rentalData?.startTime)
 	const currentTime = +new Date()
@@ -75,7 +78,8 @@ const returnRental = async (id: string) => {
 
 	const totalHours = (rentTime / (1000 * 60 * 60)).toFixed(2)
 
-	if (!rentalBike?.pricePerHour) throw new Error("Price is not found!")
+	if (!rentalBike?.pricePerHour)
+		throw new AppError(httpStatus.NOT_FOUND, "Price is not found!")
 	const totalCost = (Number(totalHours) * rentalBike?.pricePerHour).toFixed(2)
 
 	const updateReturnTimeAndCost = await Rental.findByIdAndUpdate(
@@ -108,7 +112,7 @@ const updateRentalFullPayment = async (id: string) => {
 	const user = await User.findById(rentalData?.userId)
 
 	if (!rentalData?.isReturned) {
-		throw new Error("This bike is not returned yet!")
+		throw new AppError(httpStatus.NOT_FOUND, "This bike is not returned yet!")
 	}
 
 	const updateRentalPaymentStatus = await Rental.findByIdAndUpdate(
@@ -127,7 +131,7 @@ const updateRentalFullPayment = async (id: string) => {
 			store_id: config.store_id,
 			signature_key: config.signature_key,
 			tran_id: trxId,
-			success_url: "https://bike-rental-lovat.vercel.app/confirmation",
+			success_url: "https://bike-rental-service-rose.vercel.app/confirmation",
 			fail_url: "http://www.merchantdomain.com/failedpage.html",
 			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
 			amount: paymentAmount,
