@@ -33,7 +33,8 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 			store_id: config.store_id,
 			signature_key: config.signature_key,
 			tran_id: trxId,
-			success_url: "https://bike-rental-service-rose.vercel.app/confirmation",
+			success_url:
+				"https://bike-rental-service-rose.vercel.app/confirmation.html",
 			fail_url: "http://www.merchantdomain.com/failedpage.html",
 			cancel_url: "http://www.merchantdomain.com/cancelpage.html",
 			amount: "100",

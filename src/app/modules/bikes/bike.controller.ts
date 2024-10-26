@@ -3,7 +3,11 @@ import { BikeServices } from "./bike.service"
 
 // create bike information
 const createBike = catchAsync(async (req, res) => {
-	const result = await BikeServices.createBikeIntoDB(req.body)
+	const data = {
+		...JSON.parse(req.body.data),
+		image: req.file?.path,
+	}
+	const result = await BikeServices.createBikeIntoDB(data)
 	res.json({
 		success: true,
 		statusCode: 200,
@@ -43,7 +47,11 @@ const getSingleBikes = catchAsync(async (req, res) => {
 
 const updateBike = catchAsync(async (req, res) => {
 	const { id } = req.params
-	const result = await BikeServices.updateBikesIntoDB(id, req.body)
+	const data = {
+		...JSON.parse(req.body.data),
+		image: req.file?.path,
+	}
+	const result = await BikeServices.updateBikesIntoDB(id, data)
 
 	if (!result) {
 		res.json({
