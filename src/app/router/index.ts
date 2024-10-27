@@ -4,6 +4,7 @@ import { BikeRoutes } from "../modules/bikes/bike.route"
 import { RentalRoutes } from "../modules/rental/rental.router"
 import { AuthRoutes } from "../modules/auth/auth.route"
 import { CouponRoutes } from "../modules/coupon/coupon.router"
+import { ReviewRoutes } from "../modules/review/review.route"
 
 const router = Router()
 
@@ -27,6 +28,10 @@ const allRoutes = [
 	{
 		path: "/coupons",
 		route: CouponRoutes,
+	},
+	{
+		path: "/reviews",
+		route: ReviewRoutes,
 	},
 ]
 

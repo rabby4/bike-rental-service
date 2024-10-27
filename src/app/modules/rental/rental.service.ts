@@ -54,6 +54,7 @@ const createRentalIntoDB = async (email: string, payload: TRental) => {
 		const responseData = await response.data
 		return responseData
 	}
+
 	const paymentSession = await initiatePayment()
 
 	const result = await Rental.create(payload)

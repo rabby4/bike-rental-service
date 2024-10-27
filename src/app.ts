@@ -16,6 +16,7 @@ const allowedOrigins = [
 	"http://localhost:5173",
 	"https://bike-rental-lovat.vercel.app",
 	"https://bike-rental-service-rose.vercel.app",
+	"http://localhost:5000",
 ]
 
 const corsOptions = {
